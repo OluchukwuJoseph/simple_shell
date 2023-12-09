@@ -47,14 +47,14 @@ int main(__attribute__((unused))int ac, char **av, char **environ)
 			free(args);
 			continue;
 		}
+		free(args[0]);
+		free(args);
 		if (is_terminal == 1)
 			break;
 		command_counter++;
-		free(args[0]);
-		free(args);
 
 	}
-	free(args[0]);
-	free(args);
+	if (command != NULL)
+		free(command);
 	return (0);
 }
