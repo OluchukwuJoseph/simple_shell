@@ -74,3 +74,24 @@ char *custom_strdup(char *input)
 
 	return (output);
 }
+
+/**
+ * is_space - counts space in a string
+ * @input: string
+ * Return: amount of space
+ */
+size_t is_space(char *input)
+{
+	size_t space = 0, i = 0;
+
+	if (input == NULL)
+		return (0);
+
+	for (; input[i] != '\0'; i++)
+	{
+		if (input[i] == ' ')
+			space++;
+	}
+	return (space);
+
+}

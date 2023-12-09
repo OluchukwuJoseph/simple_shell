@@ -18,9 +18,15 @@ int main(__attribute__((unused))int ac, char **av, char **environ)
 		if (command_length == -1)
 			break;
 		command[command_length - 1] = '\0';
+		if (is_space(command) == _strlen(command))
+		{
+			command_counter++;
+			free(command);
+			continue;
+		}
 		if (stat(command, &command_info) != 0)
 		{
-			printf("%s: %ld: %s\n", av[0], command_counter, command);
+			printf("%s: %ld: %s not found\n", av[0], command_counter, command);
 			command_counter++;
 			free(command);
 			continue;
@@ -35,7 +41,7 @@ int main(__attribute__((unused))int ac, char **av, char **environ)
 		args[1] = NULL;
 		if (execute(args, environ) == -1)
 		{
-			printf("%s: %ld: %s\n", av[0], command_counter, command);
+			printf("%s: %ld: %s not found\n", av[0], command_counter, command);
 			command_counter++;
 			free(args[0]);
 			free(args);
