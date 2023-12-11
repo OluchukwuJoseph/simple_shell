@@ -6,13 +6,13 @@ int main(__attribute__((unused))int ac, char **av, char **environ)
 	size_t len, command_counter = 1;
 	ssize_t command_length = 0;
 	struct stat command_info;
-	int is_terminal = 0;
+	int is_terminal = 0, i = 0;
 
 	if (!isatty(fileno(stdin)))
 		is_terminal = 1;
 	while(1)
 	{
-		printf("$ ");
+		printf("# ");
 		len = 0;
 		command_length = getline(&command, &len, stdin);
 		if (command_length == -1)
@@ -24,21 +24,19 @@ int main(__attribute__((unused))int ac, char **av, char **environ)
 			free(command);
 			continue;
 		}
-		if (stat(command, &command_info) != 0)
+		if (tokenize(command, &args) == -1)
+		{
+			printf("Memory Allocation failed\n");
+			command_counter++;
+			continue;
+		}
+		if (stat(args[0], &command_info) != 0)
 		{
 			printf("%s: %ld: %s not found\n", av[0], command_counter, command);
 			command_counter++;
 			free(command);
 			continue;
 		}
-		args = (char **)malloc(sizeof(char *) * 2);
-		if (args == NULL)
-		{
-			free(command);
-			break;
-		}
-		args[0] = command;
-		args[1] = NULL;
 		if (execute(args, environ) == -1)
 		{
 			printf("%s: %ld: %s not found\n", av[0], command_counter, command);

@@ -10,7 +10,7 @@
 int execute(char **args, char **argp)
 {
 	pid_t id;
-	int status;
+	int status, i = 1;
 
 	id = fork();
 	if (id < 0)
@@ -28,6 +28,11 @@ int execute(char **args, char **argp)
 
 	if (id == 0)
 	{
+		//while (args[i] != NULL)
+		//{
+		//	printf("%d -> %s\n", i, args[i]);
+		//	i++;
+		//}
 		if (execve(args[0], args, argp) == -1)
 		{
 			exit(1);
@@ -65,13 +70,13 @@ char *custom_strdup(char *input)
 		return (NULL);
 
 	length = _strlen(input);
-	output = (char *)malloc(sizeof(char) * length);
+	output = (char *)malloc(sizeof(char) * (length + 1));
 	if (output == NULL)
 		return (NULL);
 
-	for (; i <= length; i++)
+	for (; i < length; i++)
 		output[i] = input[i];
-
+	output[i] = '\0';
 	return (output);
 }
 
@@ -94,4 +99,43 @@ size_t is_space(char *input)
 	}
 	return (space);
 
+}
+
+/**
+ * tokenize - Tokenizes a command string into an array of strings.
+ *
+ * @command: The input command string to tokenize.
+ * @args: A double pointer (array of strings)
+ *
+ * @Return: 0 on success, -1 on failure
+ */
+int tokenize(char *command, char ***args)
+{
+	char *token = NULL, *command_dup = custom_strdup(command);
+	int num_of_args = 1, i = 0, j = 0;
+
+	if (command == NULL)
+		return (-1);
+	/*Count the number of tokens in the string*/
+	while (command[j] != '\0')
+	{
+
+		if (command[j] == ' ')
+			num_of_args++;
+		j++;
+	}
+	/*Allocate memory for an array of strings*/
+	(*args) = (char **)malloc(sizeof(char *) * (num_of_args + 1));
+	if (*args == NULL)
+		return (-1);
+	/*Populate the array with tokenized strings*/
+	token = strtok(command_dup, " ");
+	while (token != NULL)
+	{
+		(*args)[i] = custom_strdup(token);
+		token = strtok(NULL, " ");
+		i++;
+	}
+	(*args)[i] = NULL;
+	return (0);
 }
