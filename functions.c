@@ -71,6 +71,7 @@ int tokenize(char *command, char ***args)
 		i++;
 	}
 	(*args)[i] = NULL;
+	free(command_dup);
 	return (0);
 }
 
