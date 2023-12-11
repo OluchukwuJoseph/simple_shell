@@ -35,6 +35,7 @@ int main(__attribute__((unused))int ac, char **av, char **environ)
 		{
 			printf("%s: %ld: %s not found\n", av[0], command_counter, command);
 			command_counter++;
+			free(command);
 			free_double_pointer(args);
 			continue;
 		}
@@ -42,9 +43,11 @@ int main(__attribute__((unused))int ac, char **av, char **environ)
 		{
 			printf("%s: %ld: %s not found\n", av[0], command_counter, command);
 			command_counter++;
+			free(command);
 			free_double_pointer(args);
 			continue;
 		}
+		free(command);
 		free_double_pointer(args);
 		if (is_terminal == 1)
 			break;

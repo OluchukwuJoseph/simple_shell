@@ -45,7 +45,7 @@ int execute(char **args, char **argp)
  */
 int tokenize(char *command, char ***args)
 {
-	char *token = NULL;
+	char *token = NULL, *command_dup = custom_strdup(command);
 	int num_of_args = 1, i = 0, j = 0;
 
 	if (command == NULL)
@@ -59,11 +59,11 @@ int tokenize(char *command, char ***args)
 		j++;
 	}
 	/*Allocate memory for an array of strings*/
-	(*args) = (char **)malloc(sizeof(char *) * (num_of_args + 1));
+	(*args) = (char **)malloc(sizeof(char *) * (1 + num_of_args));
 	if (*args == NULL)
 		return (-1);
 	/*Populate the array with tokenized strings*/
-	token = strtok(command, " ");
+	token = strtok(command_dup, " ");
 	while (token != NULL)
 	{
 		(*args)[i] = custom_strdup(token);
