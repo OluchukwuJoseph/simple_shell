@@ -6,7 +6,7 @@ int main(__attribute__((unused))int ac, char **av, char **environ)
 	size_t len, command_counter = 1;
 	ssize_t command_length = 0;
 	struct stat command_info;
-	int is_terminal = 0, i = 0;
+	int is_terminal = 0;
 
 	if (!isatty(fileno(stdin)))
 		is_terminal = 1;

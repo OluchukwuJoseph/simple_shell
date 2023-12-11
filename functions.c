@@ -10,7 +10,7 @@
 int execute(char **args, char **argp)
 {
 	pid_t id;
-	int status, i = 1;
+	int status;
 
 	id = fork();
 	if (id < 0)
@@ -28,11 +28,6 @@ int execute(char **args, char **argp)
 
 	if (id == 0)
 	{
-		//while (args[i] != NULL)
-		//{
-		//	printf("%d -> %s\n", i, args[i]);
-		//	i++;
-		//}
 		if (execve(args[0], args, argp) == -1)
 		{
 			exit(1);
@@ -103,10 +98,8 @@ size_t is_space(char *input)
 
 /**
  * tokenize - Tokenizes a command string into an array of strings.
- *
  * @command: The input command string to tokenize.
  * @args: A double pointer (array of strings)
- *
  * @Return: 0 on success, -1 on failure
  */
 int tokenize(char *command, char ***args)
