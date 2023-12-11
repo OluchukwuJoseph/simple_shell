@@ -5,7 +5,6 @@ int main(__attribute__((unused))int ac, char **av, char **environ)
 	char *command = NULL, **args = NULL;
 	size_t len, command_counter = 1;
 	ssize_t command_length = 0;
-	struct stat command_info;
 	int is_terminal = 0;
 
 	if (!isatty(fileno(stdin)))
@@ -26,17 +25,9 @@ int main(__attribute__((unused))int ac, char **av, char **environ)
 		}
 		if (tokenize(command, &args) == -1)
 		{
-			printf("Memory Allocation failed\n");
-			free(command);
-			command_counter++;
-			continue;
-		}
-		if (stat(args[0], &command_info) != 0)
-		{
 			printf("%s: %ld: %s not found\n", av[0], command_counter, command);
 			command_counter++;
 			free(command);
-			free_double_pointer(args);
 			continue;
 		}
 		if (execute(args, environ) == -1)
