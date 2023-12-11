@@ -15,5 +15,6 @@ char *custom_strdup(char *input);
 size_t _strlen(char *input);
 size_t is_space(char *input);
 int tokenize(char *command, char ***args);
+void free_double_pointer(char **pointer);
 
 #endif
