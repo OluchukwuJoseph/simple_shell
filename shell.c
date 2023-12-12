@@ -1,5 +1,13 @@
 #include "shell.h"
 
+/**
+ * main - Takes input from the command line and execute them
+ * @ac: Amount of argument passed
+ * @av: Array containing arguments passed
+ * @environ: List of enviroment variables
+ * Return: 0 on sucess
+ */
+int main(__attribute__((unused))int ac, char **av, char **environ);
 int main(__attribute__((unused))int ac, char **av, char **environ)
 {
 	char *command = NULL, **args = NULL;
@@ -43,7 +51,6 @@ int main(__attribute__((unused))int ac, char **av, char **environ)
 		if (is_terminal == 1)
 			break;
 		command_counter++;
-
 	}
 	if (command != NULL)
 		free(command);

@@ -43,35 +43,50 @@ int execute(char **args, char **argp)
  * @args: A double pointer (array of strings)
  * @Return: 0 on success, -1 on failure
  */
-int tokenize(char *command, char ***args)
+int tokenize(char *file, char ***args)
 {
-	char *token = NULL, *command_dup = NULL;
-	int num_of_args = 1, i = 0, j = 0;
+	char *token = NULL, *command = NULL, *arguments = NULL;
+	char *file_dup = NULL, *token_dup = NULL, *path_to_file = NULL;
+	int num_of_args = 0, i = 0;
+	struct stat file_info;
 
-	if (command == NULL)
-		return (-1);
-	if (command[0] != '/')
-	{
-		command_dup = add_env(command);
-		if (command_dup == NULL)
-			return (-1);
-	}
+	if (file[0] == '/')
+		command = custom_strdup(file);
 	else
-		command_dup = custom_strdup(command);
-	/*Count the number of tokens in the string*/
-	while (command[j] != '\0')
 	{
-
-		if (command[j] == ' ')
-			num_of_args++;
-		j++;
+		file_dup = custom_strdup(file);
+		arguments = strmod(file_dup, ' ');
+		token_dup = take_first_word(file_dup, ' ');
+		path_to_file = add_path(token_dup);
+		free(token_dup);
+		free(file_dup);
+		if (path_to_file == NULL)
+		{
+			free(arguments);
+			return (-1);
+		}
+		if (arguments != NULL)
+		{
+			command = add_strings(path_to_file, "", arguments);
+			free(path_to_file);
+			free(arguments);
+		}
+		if (arguments == NULL)
+		{
+			command = custom_strdup(path_to_file);
+			free(path_to_file);
+			free(arguments);
+		}
 	}
+	/*Count the number of tokens in the string*/
+	num_of_args = is_space(command);
+	num_of_args++;
 	/*Allocate memory for an array of strings*/
 	(*args) = (char **)malloc(sizeof(char *) * (1 + num_of_args));
 	if (*args == NULL)
 		return (-1);
 	/*Populate the array with tokenized strings*/
-	token = strtok(command_dup, " ");
+	token = strtok(command, " ");
 	while (token != NULL)
 	{
 		(*args)[i] = custom_strdup(token);
@@ -79,7 +94,13 @@ int tokenize(char *command, char ***args)
 		i++;
 	}
 	(*args)[i] = NULL;
-	free(command_dup);
+	if (stat((*args)[0], &file_info) != 0)
+	{
+		free_double_pointer(*args);
+		free(command);
+		return (-1);
+	}
+	free(command);
 	return (0);
 }
 
@@ -106,71 +127,72 @@ void free_double_pointer(char **pointer)
  * Return: A string containing the full path to file on Sucess
  * Returns NULL on error
  */
-char *add_env(char *file)
+char *add_path(char *file)
 {
-	char *environ = getenv("PATH"), *environ_dup = custom_strdup(environ);
-	char *token = NULL, *full_path = NULL;
-	char *file_dup = custom_strdup(file);
+	char *environ = getenv("PATH"), *environ_dup = NULL;
+	char *token = NULL, *full_path = NULL, *file_dup = custom_strdup(file);
 	struct stat file_info;
 	int file_exists = 1;
 
+	environ_dup = custom_strdup(environ);
 	token = strtok(environ_dup, ":");
 	while (token != NULL)
 	{
 		full_path = add_strings(token, "/", file_dup);
 		if (full_path == NULL)
 		{
+			free(environ_dup);
 			free(token);
 			free(file_dup);
-			free(environ_dup);
 		}
 		if (stat(full_path, &file_info) != 0)
+		{
+			free(full_path);
 			file_exists = 0;
+		}
 		if (file_exists == 1)
 			break;
+		file_exists = 1;
 		token = strtok(NULL, ":");
-		full_path = NULL;
 	}
-	if (file_exists == 0)
+	if (token == NULL)
 	{
-		free(file_dup);
-		free(full_path);
 		free(environ_dup);
+		/*free(full_path);*/
+		free(file_dup);
 		return (NULL);
 	}
-
+	free(environ_dup);
+	free(file_dup);
 	return (full_path);
 }
 
 /**
- * add_strings - adds 3 strings together
- * @first: First string
- * @delim: Delimeter
- * @second: Second String
- * Return: New String
+ * take_first_word - Take first word from a string
+ * The first word is the characters before limit
+ * @input: String
+ * @limit: Character to look out for
+ * Return: First word on sucess
+ * NULL on Failure (Insufficient Memory)
  */
-char *add_strings(char *first, char *delim, char *second)
+char *take_first_word(char *input, char limit)
 {
-	int first_length = _strlen(first), second_length = _strlen(second);
-	int delim_length = _strlen(delim), i = 0, j;
-	int length = first_length + second_length + delim_length;
 	char *output = NULL;
+	int i = 0, j = 0;
 
-	if (first == NULL && second == NULL && delim == NULL)
-		return (NULL);
+	while (input[i] != '\0')
+	{
+		if (input[i] == limit)
+			break;
+		i++;
+	}
 
-	output = (char *)malloc(sizeof(char) * (length + 1));
+	output = (char *)malloc(sizeof(char) * (i + 1));
 	if (output == NULL)
 		return (NULL);
+	for (; j < i; j++)
+		output[j] = input[j];
+	output[j] = '\0';
 
-
-	for (j = 0; j < first_length; i++, j++)
-		output[i] = first[j];
-	for (j = 0; j < delim_length; i++, j++)
-		output[i] = delim[j];
-	for (j = 0; j < second_length; i++,j++)
-		output[i] = second[j];
-	output[i] = '\0';
 	return (output);
 }
-
