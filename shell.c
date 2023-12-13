@@ -19,7 +19,8 @@ int main(__attribute__((unused))int ac, char **av, char **environ)
 		is_terminal = 1;
 	while(1)
 	{
-		printf("# ");
+		if (isatty(STDIN_FILENO))
+			printf("$ ");
 		len = 0;
 		command_length = getline(&command, &len, stdin);
 		if (command_length == -1)
