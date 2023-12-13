@@ -57,5 +57,3 @@ int compare_strings(char *first_string, char *second_string)
 		return (0);
 	return (1);
 }
-
-	

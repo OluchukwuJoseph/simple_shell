@@ -17,7 +17,7 @@ int main(__attribute__((unused))int ac, char **av, char **environ)
 
 	if (!isatty(fileno(stdin)))
 		is_terminal = 1;
-	while(1)
+	while (1)
 	{
 		if (isatty(STDIN_FILENO))
 			printf("$ ");
