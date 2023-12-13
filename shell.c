@@ -24,7 +24,10 @@ int main(__attribute__((unused))int ac, char **av, char **environ)
 		len = 0;
 		command_length = getline(&command, &len, stdin);
 		if (command_length == -1)
-			break;
+		{
+			free(command);
+			exit(EXIT_FAILURE);
+		}
 		command[command_length - 1] = '\0';
 		if (is_space(command) == _strlen(command))
 		{
@@ -62,10 +65,8 @@ int main(__attribute__((unused))int ac, char **av, char **environ)
 		command = NULL;
 		free_double_pointer(args);
 		if (is_terminal == 1)
-			break;
+			exit(EXIT_SUCCESS);
 		command_counter++;
 	}
-	if (command != NULL)
-		free(command);
 	return (0);
 }
