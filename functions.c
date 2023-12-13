@@ -87,7 +87,7 @@ int tokenize(char *file, char ***args)
 	if (*args == NULL)
 		return (-1);
 	/*Populate the array with tokenized strings*/
-	token = strtok(command, " ");
+	token = strtok(command, " \n\t\r");
 	while (token != NULL)
 	{
 		(*args)[i] = custom_strdup(token);
