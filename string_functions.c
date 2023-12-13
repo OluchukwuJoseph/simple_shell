@@ -126,4 +126,3 @@ char *strmod(char *input, char limit)
 	output[j] = '\0';
 	return (output);
 }
-

@@ -6,7 +6,7 @@
  * @argp: Environment variables to run with program
  * Return: Return 0 on sucess
  * Return -1 on failure
- */
+*/
 int execute(char **args, char **argp)
 {
 	pid_t id;
@@ -41,8 +41,9 @@ int execute(char **args, char **argp)
  * tokenize - Tokenizes a command string into an array of strings.
  * @command: The input command string to tokenize.
  * @args: A double pointer (array of strings)
- * @Return: 0 on success, -1 on failure
- */
+ * Return: 0 on success, -1 on failure
+*/
+int tokenize(char *file, char ***args);
 int tokenize(char *file, char ***args)
 {
 	char *token = NULL, *command = NULL, *arguments = NULL;
@@ -108,7 +109,7 @@ int tokenize(char *file, char ***args)
  * free_double_pointers - frees the strings in an array of strings
  * @pointer: Array of strings (double pointer)
  * Return: Nothing
- */
+*/
 void free_double_pointer(char **pointer)
 {
 	int i = 0;
@@ -126,7 +127,7 @@ void free_double_pointer(char **pointer)
  * @file: File
  * Return: A string containing the full path to file on Sucess
  * Returns NULL on error
- */
+*/
 char *add_path(char *file)
 {
 	char *environ = getenv("PATH"), *environ_dup = NULL;
@@ -168,31 +169,17 @@ char *add_path(char *file)
 }
 
 /**
- * take_first_word - Take first word from a string
- * The first word is the characters before limit
- * @input: String
- * @limit: Character to look out for
- * Return: First word on sucess
- * NULL on Failure (Insufficient Memory)
- */
-char *take_first_word(char *input, char limit)
+ * print_env - prints all environment variables
+ * Return: Nothing
+*/
+void print_env(void)
 {
-	char *output = NULL;
-	int i = 0, j = 0;
+	extern char **environ;
+	int i = 0;
 
-	while (input[i] != '\0')
+	while (environ[i] != NULL)
 	{
-		if (input[i] == limit)
-			break;
+		printf("%s\n", environ[i]);
 		i++;
 	}
-
-	output = (char *)malloc(sizeof(char) * (i + 1));
-	if (output == NULL)
-		return (NULL);
-	for (; j < i; j++)
-		output[j] = input[j];
-	output[j] = '\0';
-
-	return (output);
 }

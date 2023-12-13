@@ -31,6 +31,12 @@ int main(__attribute__((unused))int ac, char **av, char **environ)
 			free(command);
 			continue;
 		}
+		if (compare_strings(command, "env") == 1)
+		{
+			print_env();
+			free(command);
+			continue;
+		}
 		if (tokenize(command, &args) == -1)
 		{
 			printf("%s: %ld: %s not found\n", av[0], command_counter, command);

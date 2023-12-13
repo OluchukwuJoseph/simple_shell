@@ -20,5 +20,7 @@ char *add_strings(char *first, char *delim, char *second);
 char *add_path(char *file);
 char *strmod(char *input, char limit);
 char *take_first_word(char *input, char limit);
+int compare_strings(char *first_string, char *second_string);
+void print_env(void);
 
 #endif
