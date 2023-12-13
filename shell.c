@@ -26,7 +26,7 @@ int main(__attribute__((unused))int ac, char **av, char **environ)
 		if (command_length == -1)
 		{
 			free(command);
-			exit(EXIT_FAILURE);
+			exit(EXIT_SUCCESS);
 		}
 		command[command_length - 1] = '\0';
 		if (is_space(command) == _strlen(command))
