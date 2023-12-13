@@ -36,12 +36,10 @@ int main(__attribute__((unused))int ac, char **av, char **environ)
 			command = NULL;
 			continue;
 		}
-		if (compare_strings(command, "env") == 1)
+		if (compare_strings(command, "exit") == 1)
 		{
-			print_env();
 			free(command);
-			command = NULL;
-			continue;
+			exit(EXIT_SUCCESS);
 		}
 		if (tokenize(command, &args) == -1)
 		{
