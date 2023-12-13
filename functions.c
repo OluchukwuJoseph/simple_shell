@@ -39,7 +39,7 @@ int execute(char **args, char **argp)
 
 /**
  * tokenize - Tokenizes a command string into an array of strings.
- * @command: The input command string to tokenize.
+ * @file: The input command string to tokenize.
  * @args: A double pointer (array of strings)
  * Return: 0 on success, -1 on failure
 */
@@ -106,7 +106,7 @@ int tokenize(char *file, char ***args)
 }
 
 /**
- * free_double_pointers - frees the strings in an array of strings
+ * free_double_pointer - frees the strings in an array of strings
  * @pointer: Array of strings (double pointer)
  * Return: Nothing
 */
@@ -123,7 +123,7 @@ void free_double_pointer(char **pointer)
 }
 
 /**
- * add_env - adds path environment variable to input and checks if file exists
+ * add_path - adds path environment variable to input and checks if file exists
  * @file: File
  * Return: A string containing the full path to file on Sucess
  * Returns NULL on error
@@ -174,7 +174,6 @@ char *add_path(char *file)
 */
 void print_env(void)
 {
-	extern char **environ;
 	int i = 0;
 
 	while (environ[i] != NULL)

@@ -56,7 +56,7 @@ size_t _strlen(char *input)
 
 	while (input[length] != '\0')
 		length++;
-	return(length);
+	return (length);
 }
 
 /**
@@ -85,7 +85,7 @@ char *add_strings(char *first, char *delim, char *second)
 		output[i] = first[j];
 	for (j = 0; j < delim_length; i++, j++)
 		output[i] = delim[j];
-	for (j = 0; j < second_length; i++,j++)
+	for (j = 0; j < second_length; i++, j++)
 		output[i] = second[j];
 	output[i] = '\0';
 	return (output);

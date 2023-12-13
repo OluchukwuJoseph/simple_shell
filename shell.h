@@ -10,6 +10,7 @@
 #include <stddef.h>
 #include <stdlib.h>
 
+extern char **environ;
 int execute(char **args, char **argp);
 char *custom_strdup(char *input);
 size_t _strlen(char *input);
