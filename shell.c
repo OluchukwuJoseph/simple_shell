@@ -13,10 +13,7 @@ int main(__attribute__((unused))int ac, char **av, char **environ)
 	char *command = NULL, **args = NULL;
 	size_t len, command_counter = 1;
 	ssize_t command_length = 0;
-	int is_terminal = 0;
 
-	if (!isatty(fileno(stdin)))
-		is_terminal = 1;
 	while (1)
 	{
 		if (isatty(STDIN_FILENO))
@@ -61,8 +58,6 @@ int main(__attribute__((unused))int ac, char **av, char **environ)
 		free(command);
 		command = NULL;
 		free_double_pointer(args);
-		if (is_terminal == 1)
-			break;
 		command_counter++;
 	}
 	if (command != NULL)
