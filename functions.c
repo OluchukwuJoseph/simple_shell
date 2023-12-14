@@ -47,15 +47,18 @@ int tokenize(char *file, char ***args);
 int tokenize(char *file, char ***args)
 {
 	char *token = NULL, *command = NULL, *arguments = NULL;
-	char *file_dup = NULL, *token_dup = NULL, *path_to_file = NULL;
+	char *file_dup = custom_strdup(file);
+	char *token_dup = NULL, *path_to_file = NULL;
 	int num_of_args = 0, i = 0;
 	struct stat file_info;
 
-	if (file[0] == '/')
+	if (file_dup[0] == '/')
+	{
+		free(file_dup);
 		command = custom_strdup(file);
+	}
 	else
 	{
-		file_dup = custom_strdup(file);
 		arguments = strmod(file_dup, ' ');
 		token_dup = take_first_word(file_dup, ' ');
 		path_to_file = add_path(token_dup);
@@ -85,7 +88,7 @@ int tokenize(char *file, char ***args)
 	/*Allocate memory for an array of strings*/
 	(*args) = (char **)malloc(sizeof(char *) * (1 + num_of_args));
 	if (*args == NULL)
-		return (-1);
+		return (0);
 	/*Populate the array with tokenized strings*/
 	token = strtok(command, " \n\t\r");
 	while (token != NULL)

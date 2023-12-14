@@ -28,19 +28,37 @@ size_t is_space(char *input)
  */
 char *custom_strdup(char *input)
 {
-	size_t length = 0, i = 0;
+	int spaces_to_remove = 0, length = 0, i = 0, characters = 0, spaces = 0;
 	char *output = NULL;
 
 	if (input == NULL)
 		return (NULL);
 
-	length = _strlen(input);
+	while (input[length] != '\0') {
+		if (input[length] != '\t' && input[length] != ' '
+				&& input[length] != '\n')
+		{
+			characters++;
+		}
+		if ((input[length] == ' ' || input[length] == '\n'
+			|| input[length] == '\t') && characters > 0)
+		{
+			spaces++;
+		}
+		if ((input[length] == ' ' || input[length] == '\n'
+			|| input[length] == '\t') && characters == 0)
+		{
+			spaces_to_remove++;
+		}
+		length++;
+	}
+	length = characters + spaces;
 	output = (char *)malloc(sizeof(char) * (length + 1));
 	if (output == NULL)
 		return (NULL);
 
-	for (; i < length; i++)
-		output[i] = input[i];
+	for (; i < length; i++, spaces_to_remove++)
+		output[i] = input[spaces_to_remove];
 	output[i] = '\0';
 	return (output);
 }
