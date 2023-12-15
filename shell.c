@@ -13,6 +13,7 @@ int main(__attribute__((unused))int ac, char **av, char **environ)
 	char *command = NULL, **args = NULL;
 	size_t len, command_counter = 1;
 	ssize_t command_length = 0;
+	int exit_status = 0;
 
 	while (1)
 	{
@@ -31,12 +32,13 @@ int main(__attribute__((unused))int ac, char **av, char **environ)
 			command_counter++;
 			free(command);
 			command = NULL;
+			exit_status = 0;
 			continue;
 		}
 		if (compare_strings(command, "exit") == 1)
 		{
 			free(command);
-			exit(EXIT_SUCCESS);
+			exit(exit_status);
 		}
 		if (tokenize(command, &args) == 1)
 		{
@@ -44,6 +46,7 @@ int main(__attribute__((unused))int ac, char **av, char **environ)
 			command_counter++;
 			free(command);
 			command = NULL;
+			exit_status = 1;
 			continue;
 		}
 		if (execute(args, environ) == 1)
@@ -54,12 +57,14 @@ int main(__attribute__((unused))int ac, char **av, char **environ)
 			command = NULL;
 			free_double_pointer(args);
 			args = NULL;
+			exit_status = 1;
 			continue;
 		}
 		free(command);
 		command = NULL;
 		free_double_pointer(args);
 		command_counter++;
+		exit_status = 0;
 	}
 	return (0);
 }
