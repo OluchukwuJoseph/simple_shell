@@ -46,7 +46,7 @@ int main(__attribute__((unused))int ac, char **av, char **environ)
 			command_counter++;
 			free(command);
 			command = NULL;
-			exit_status = 1;
+			exit_status = 2;
 			continue;
 		}
 		if (execute(args, environ) == 1)
@@ -57,7 +57,7 @@ int main(__attribute__((unused))int ac, char **av, char **environ)
 			command = NULL;
 			free_double_pointer(args);
 			args = NULL;
-			exit_status = 1;
+			exit_status = 2;
 			continue;
 		}
 		free(command);
