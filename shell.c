@@ -38,7 +38,7 @@ int main(__attribute__((unused))int ac, char **av, char **environ)
 			free(command);
 			exit(EXIT_SUCCESS);
 		}
-		if (tokenize(command, &args) == -1)
+		if (tokenize(command, &args) == 1)
 		{
 			printf("%s: %ld: %s not found\n", av[0], command_counter, command);
 			command_counter++;
@@ -46,7 +46,7 @@ int main(__attribute__((unused))int ac, char **av, char **environ)
 			command = NULL;
 			continue;
 		}
-		if (execute(args, environ) == -1)
+		if (execute(args, environ) == 1)
 		{
 			perror("Could not execute file\n");
 			command_counter++;
