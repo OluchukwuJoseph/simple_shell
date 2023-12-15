@@ -67,7 +67,8 @@ int tokenize(char *file, char ***args)
 		command = add_strings(path_to_file, "", arguments);
 		free(path_to_file);
 		free(arguments);
-		free(token_dup);
+		if (file_dup[0] != '/')
+			free(token_dup);
 		free(file_dup);
 	}
 	if (arguments == NULL)
