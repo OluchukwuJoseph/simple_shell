@@ -1,5 +1,9 @@
 #include "shell.h"
 
+/**
+ * _getcwd - gets the current working directory
+ * Return: Nothing
+ */
 char *_getcwd(void)
 {
 	int cwd_size = 1024;
