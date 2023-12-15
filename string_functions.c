@@ -34,7 +34,8 @@ char *custom_strdup(char *input)
 	if (input == NULL)
 		return (NULL);
 
-	while (input[length] != '\0') {
+	while (input[length] != '\0')
+	{
 		if (input[length] != '\t' && input[length] != ' '
 				&& input[length] != '\n')
 		{

@@ -134,7 +134,7 @@ char *add_path(char *file)
 		else
 			return (NULL);
 	}
-	file_dup = custom_strdup(file);	
+	file_dup = custom_strdup(file);
 	environ_dup = custom_strdup(environ);
 	token = strtok(environ_dup, ":");
 	while (token != NULL)
