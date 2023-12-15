@@ -73,6 +73,7 @@ int tokenize(char *file, char ***args)
 	}
 	if (arguments == NULL)
 	{
+		printf("FILE -> %s\n", path_to_file); 
 		command = custom_strdup(path_to_file);
 		free(path_to_file);
 		if (file_dup[0] != '/')
@@ -132,6 +133,23 @@ char *add_path(char *file)
 	{
 		if (stat(file, &file_info) == 0)
 			return (file);
+		else
+			return (NULL);
+	}
+	if (file[0] == '.' && file[1] == '/')
+	{
+		file_dup = strmod(file, '/');
+		printf("FILE -> %s\n", file_dup);
+		environ_dup = _getcwd();
+		printf("AB -> %s\n", environ_dup);
+		full_path = add_strings(environ_dup, "", file_dup);
+		printf("PATH -> %s\n", full_path);
+		if (stat(full_path, &file_info) == 0)
+		{
+			free(file_dup);
+			free(environ_dup);
+			return (full_path);
+		}
 		else
 			return (NULL);
 	}

@@ -9,6 +9,7 @@
 #include <string.h>
 #include <stddef.h>
 #include <stdlib.h>
+#include <errno.h>
 
 extern char **environ;
 int execute(char **args, char **argp);
@@ -23,5 +24,6 @@ char *strmod(char *input, char limit);
 char *take_first_word(char *input, char limit);
 int compare_strings(char *first_string, char *second_string);
 void print_env(void);
+char *_getcwd(void);
 
 #endif
