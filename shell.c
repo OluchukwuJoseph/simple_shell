@@ -20,7 +20,7 @@ int main(__attribute__((unused))int ac, char **av, char **environ)
 		if (isatty(STDIN_FILENO))
 			printf("$ ");
 		len = 0;
-		command_length = getline(&command, &len, stdin);
+		command_length = custom_getline(&command, &len, stdin);
 		if (command_length == -1)
 		{
 			free(command);
@@ -66,4 +66,46 @@ int main(__attribute__((unused))int ac, char **av, char **environ)
 		exit_status = 0;
 	}
 	return (0);
+}
+
+/**
+ * custom_getline - reads an entire line from stream
+ * @lineptr: buffer to write to
+ * @len: length of buffer
+ * @stream: File descriptor to take input from
+ */
+ssize_t custom_getline(char **lineptr, size_t *len, FILE *stream)
+{
+	size_t i = 0;
+	char character;
+
+	if (!stream)
+		return (-1);
+
+	if (*lineptr == NULL || len == 0)
+	{
+		*len = 1024;
+		*lineptr = (char *)malloc(sizeof(char) * (*len));
+		if (*lineptr == NULL)
+			return (-1);
+	}
+	while (1)
+	{
+		character = fgetc(stream);
+		if (character == EOF || character == '\n')
+			break;
+		(*lineptr)[i] = character;
+		i++;
+		if (i >= *len)
+		{
+			*len = i * 2;
+			*lineptr = (char *)realloc(*lineptr, *len);
+			if (*lineptr == NULL)
+				return (-1);
+		}
+	}
+	if (i == 0)
+		return (-1);
+	(*lineptr)[i] = '\0';
+	return ((ssize_t)i + 1);
 }
