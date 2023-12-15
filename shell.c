@@ -51,7 +51,6 @@ int main(__attribute__((unused))int ac, char **av, char **environ)
 		}
 		if (execute(args, environ) == 1)
 		{
-			perror("Could not execute file\n");
 			command_counter++;
 			free(command);
 			command = NULL;

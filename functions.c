@@ -30,6 +30,7 @@ int execute(char **args, char **argp)
 	{
 		if (execve(args[0], args, argp) == -1)
 		{
+			perror("Could not execute file\n");
 			exit(EXIT_FAILURE);
 		}
 		exit(EXIT_SUCCESS);
