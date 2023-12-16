@@ -10,7 +10,8 @@
 int main(__attribute__((unused))int ac, char **av, char **environ);
 int main(__attribute__((unused))int ac, char **av, char **environ)
 {
-	char *command = NULL, **args = NULL;
+	char *command = NULL, **args = NULL, *exit_call = NULL;
+	char *exit_argument = NULL;
 	size_t len, command_counter = 1;
 	ssize_t command_length = 0;
 	int exit_status = 0;
@@ -40,6 +41,31 @@ int main(__attribute__((unused))int ac, char **av, char **environ)
 			free(command);
 			exit(exit_status);
 		}
+		exit_call = take_first_word(command, ' ');
+		if (compare_strings(exit_call, "exit") == 1)
+		{
+			exit_argument = strmod(command, ' ');
+			exit_status = custom_exit(exit_argument);
+			if (exit_status == -1)
+			{
+				printf("%s: %ld: %s: Illegal number:%s\n", 
+			av[0], command_counter, exit_call, exit_argument);
+				command_counter++;
+				free(exit_argument);
+				free(exit_call);
+				exit_call = NULL;
+				free(command);
+				command = NULL;
+				exit_status = 2;
+				continue;
+			}
+			free(exit_argument);
+			free(exit_call);
+			free(command);
+			exit(exit_status);
+		}
+		if (exit_call != NULL)
+			free(exit_call);
 		if (tokenize(command, &args) == 1)
 		{
 			printf("%s: %ld: %s not found\n", av[0], command_counter, command);

@@ -26,5 +26,6 @@ int compare_strings(char *first_string, char *second_string);
 void print_env(void);
 char *_getcwd(void);
 ssize_t custom_getline(char **lineptr, size_t *len, FILE *stream);
+int custom_exit(char *input);
 
 #endif
