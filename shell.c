@@ -99,6 +99,8 @@ int main(__attribute__((unused))int ac, char **av, char **environ)
  * @lineptr: buffer to write to
  * @len: length of buffer
  * @stream: File descriptor to take input from
+ * Return: Number of characters read on success
+ * -1 on failure
  */
 ssize_t custom_getline(char **lineptr, size_t *len, FILE *stream)
 {
