@@ -48,7 +48,7 @@ int main(__attribute__((unused))int ac, char **av, char **environ)
 			exit_status = custom_exit(exit_argument);
 			if (exit_status == -1)
 			{
-				printf("%s: %ld: %s: Illegal number:%s\n", 
+				printf("%s: %ld: %s: Illegal number:%s\n",
 			av[0], command_counter, exit_call, exit_argument);
 				command_counter++;
 				free(exit_argument);

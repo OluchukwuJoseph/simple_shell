@@ -13,6 +13,7 @@ char *take_first_word(char *input, char limit)
 	char *output = NULL;
 	int i = 0, j = 0;
 	int characters = 0, start_reading = 0;
+
 	while (input[i] != '\0')
 	{
 		if (input[i] != limit)

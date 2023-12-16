@@ -48,7 +48,7 @@ int custom_exit(char *input)
 	int i = 0, numbers = 0, exit_status = 0, characters = 0;
 	char character;
 
-	character = input[0]; 
+	character = input[0];
 	input[0] = '0';
 	while (input[i] != '\0')
 	{
